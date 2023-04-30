@@ -1,0 +1,155 @@
+{% extends 'weiboreach/base.html' %}
+
+{% block title %}
+    微博舆情系统首页
+{% endblock %}
+{% block cssfile %}
+    <link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">
+        <svg class="bi bi-book text-logo" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M3.214 1.072C4.813.752 6.916.71 8.354 2.146A.5.5 0 018.5 2.5v11a.5.5 0 01-.854.354c-.843-.844-2.115-1.059-3.47-.92-1.344.14-2.66.617-3.452 1.013A.5.5 0 010 13.5v-11a.5.5 0 01.276-.447L.5 2.5l-.224-.447.002-.001.004-.002.013-.006a5.017 5.017 0 01.22-.103 12.958 12.958 0 012.7-.869zM1 2.82v9.908c.846-.343 1.944-.672 3.074-.788 1.143-.118 2.387-.023 3.426.56V2.718c-1.063-.929-2.631-.956-4.09-.664A11.958 11.958 0 001 2.82z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M12.786 1.072C11.188.752 9.084.71 7.646 2.146A.5.5 0 007.5 2.5v11a.5.5 0 00.854.354c.843-.844 2.115-1.059 3.47-.92 1.344.14 2.66.617 3.452 1.013A.5.5 0 0016 13.5v-11a.5.5 0 00-.276-.447L15.5 2.5l.224-.447-.002-.001-.004-.002-.013-.006-.047-.023a12.582 12.582 0 00-.799-.34 12.96 12.96 0 00-2.073-.609zM15 2.82v9.908c-.846-.343-1.944-.672-3.074-.788-1.143-.118-2.387-.023-3.426.56V2.718c1.063-.929 2.631-.956 4.09-.664A11.956 11.956 0 0115 2.82z" clip-rule="evenodd"/>
+</svg>WeiboReach
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active"><a class="nav-link" href="#">首页</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">指标说明</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">测试</a></li>
+        </ul>
+
+    </div>
+</nav>
+
+
+<div class="jumbotron jumbotron-fluid" style="margin-top: 58px">
+  <div class="container">
+    <h1 class="display-4">微博舆情分析系统</h1>
+    <p class="lead">This is a Microblog public opinion analysis system.</p>
+  </div>
+</div>
+
+<div class="main">
+    <div class="container">
+    <div class="row">
+        <div class="d-flex col-lg-7">
+            <div class="flex-fill w-100 card">
+                <div class="card-header">
+                    <svg class="bi bi-graph-up text-hottitle text-danger" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0 0h1v16H0V0zm1 15h15v1H1v-1z"/>
+  <path fill-rule="evenodd" d="M14.39 4.312L10.041 9.75 7 6.707l-3.646 3.647-.708-.708L7 5.293 9.959 8.25l3.65-4.563.781.624z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M10 3.5a.5.5 0 01.5-.5h4a.5.5 0 01.5.5v4a.5.5 0 01-1 0V4h-3.5a.5.5 0 01-.5-.5z" clip-rule="evenodd"/>
+</svg>
+                    <span class="mb-0 card-title">热点事件趋势</span>
+                </div>
+                <div class="card-body">
+                    <div class="align-self-center w-100">
+                        <div class="chart">
+							<div id="chartjs"></div>
+						</div>
+                     </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="d-flex col-lg-5">
+            <div class="flex-fill w-100 card card10">
+                <div class="card-header">
+                    <svg class="bi bi-shift-fill text-hottitle text-warning" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M7.27 2.047a1 1 0 011.46 0l6.345 6.77c.6.638.146 1.683-.73 1.683H11.5v3a1 1 0 01-1 1h-5a1 1 0 01-1-1v-3H1.654C.78 10.5.326 9.455.924 8.816L7.27 2.047z" clip-rule="evenodd"/>
+</svg>
+                    <span class="card-title">热搜榜</span>
+                </div>
+                 <ul class="list-group list-group-flush hottopic">
+                     {% for hotitem in hotlist %}
+                         <li class="list-group-item list-group-item-action"><a href="#">
+                            <span title="{{ hotitem.hotTitle }}">
+                                <i class="order">{{ forloop.counter }}</i>
+                                <em class="text-primary">{{ hotitem.hotTitle }}</em>
+                            </span>
+                        </a></li>
+                     {% endfor %}
+                 </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+$(function() {
+			// Area chart
+			var options = {
+				chart: {
+					height: 350,
+					type: "area",
+				},
+				dataLabels: {
+					enabled: false
+				},
+				stroke: {
+					curve: "smooth"
+				},
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 1,
+                        inverseColors: false,
+                        opacityFrom: 0.5,
+                        opacityTo: 0,
+                        stops: [0, 90, 100]
+                    },
+                },
+				series: [{
+					name: "series1",
+					data: [31, 40, 28, 51, 42, 109, 100]
+				}, {
+					name: "series2",
+					data: [11, 32, 23, 54, 34, 52, 41]
+				}, {
+					name: "series3",
+					data: [11, 32, 32, 43, 34, 34, 41]
+				}, {
+					name: "series4",
+					data: [11, 32, 12, 32, 1, 2, 41]
+				}, {
+					name: "series5",
+					data: [11, 34, 11, 32, 132, 52, 41]
+				}, {
+					name: "series6",
+					data: [11, 42, 45, 32, 34, 2, 41]
+				}, {
+					name: "series7",
+					data: [4, 56, 23, 1, 3, 6, 32]
+				}
+				],
+				xaxis: {
+					type: "datetime",
+					categories: ["2020-09-19T00:00:00", "2020-09-19T01:30:00", "2020-09-19T02:30:00", "2020-09-19T03:30:00", "2020-09-19T04:30:00", "2020-09-19T05:30:00",
+						"2020-09-19T06:30:00"
+					],
+				},
+				tooltip: {
+					x: {
+						format: "yyyy/MM/dd HH:mm"
+					}
+				},
+				legend: {
+                    show: false
+                }
+			}
+			var chart = new ApexCharts(
+				document.querySelector("#chartjs"),
+				options
+			);
+			chart.render();
+});
+</script>
+{% endblock %}

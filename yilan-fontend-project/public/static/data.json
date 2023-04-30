@@ -1,0 +1,24 @@
+[
+    {
+        "upper":"",
+        "url":"",
+        "date":"",
+        "content":"",
+        "thumbUp":"",//今日头条是评论点赞之和
+        "rePost":"",
+        "comment":"",
+        "homePageUrl":"",
+        "platform":""      
+    },
+    {
+        "upper":"",
+        "url":"", 
+        "date":"",
+        "content":"",
+        "thumbUp":"",//今日头条是评论点赞之和
+        "rePost":"",
+        "comment":"",
+        "homePageUrl":"" ,
+        "platform":""      
+    }  
+]

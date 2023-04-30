@@ -1,0 +1,389 @@
+{% extends 'weiboreach/base_main.html' %}
+{% block title %}
+    影响力分析
+{% endblock %}
+{% block content %}
+<div class="content">
+    <div class="p-0 container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-title mb-0 mt-md-1 ml-md-2"><i class="text-title">疫情概要</i><!---<span class="content-title font-weight-bold font-italic">{{ hId }}</span>---><span class="float-right badge badge-primary mr-2">{{ weiboTime }}</span></div>
+                    <div class="card-body article-body">{{ weiboContent }}</div>
+                </div>
+            </div>
+        </div> <!--- 话题导语 --->
+        <!--- 影响力分析 --->
+        <div class="row">
+            <div class="d-flex col-md-12">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#TippingpointInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="TippingpointInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">引爆点说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <svg class="bi bi-brightness-high text-hot-title-icon text-danger" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 11a3 3 0 100-6 3 3 0 000 6zm0 1a4 4 0 100-8 4 4 0 000 8zM8 0a.5.5 0 01.5.5v2a.5.5 0 01-1 0v-2A.5.5 0 018 0zm0 13a.5.5 0 01.5.5v2a.5.5 0 01-1 0v-2A.5.5 0 018 13zm8-5a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2a.5.5 0 01.5.5zM3 8a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2A.5.5 0 013 8zm10.657-5.657a.5.5 0 010 .707l-1.414 1.415a.5.5 0 11-.707-.708l1.414-1.414a.5.5 0 01.707 0zm-9.193 9.193a.5.5 0 010 .707L3.05 13.657a.5.5 0 01-.707-.707l1.414-1.414a.5.5 0 01.707 0zm9.193 2.121a.5.5 0 01-.707 0l-1.414-1.414a.5.5 0 01.707-.707l1.414 1.414a.5.5 0 010 .707zM4.464 4.465a.5.5 0 01-.707 0L2.343 3.05a.5.5 0 11.707-.707l1.414 1.414a.5.5 0 010 .708z" clip-rule="evenodd"/>
+</svg>
+                        <h5 class="mb-0 card-title d-inline-block">引爆点</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="echarts-influence" style="width: 100%;height:750px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex col-md-12">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#KeyUserInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="KeyUserInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">关键用户列表说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-user-secret text-secondary" aria-hidden="true"></i>
+                        <h5 class="mb-0 card-title d-inline-block">话题领袖</h5>
+                    </div>
+                    <div class="card-body pt-0">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>昵称</th>
+                                <th>粉丝数</th>
+                                <th>微博URL</th>
+                                <th>被转发数</th>
+                                <th>转发时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for eachLeader in weiboTitleLeaders %}
+                                <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    <img src="/static/images/avatar.jpg" width="48" height="48" class="rounded-circle mr-2" alt="Avatar">{{ eachLeader.nickName }}
+                                </td>
+                                <td>{{ eachLeader.fansNum }}</td>
+                                <td><a href="{{ eachLeader.weiboUrl }}" class="text-decoration-none">{{ eachLeader.weiboUrl }}</a></td>
+                                <td>{{ eachLeader.repostCount }}</td>
+                                <td class="text-secondary">{{ eachLeader.createdAt }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex col-md-12">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#relationModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="relationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">树状图说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-sitemap text-danger" aria-hidden="true"></i>
+                        <h5 class="mb-0 card-title d-inline-block">转发关系</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="echarts-relation" style="width: 100%;height:750px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block chartjs %}
+<script>
+$(function () {
+const roles = {{ influenceLeaders|safe  }};
+
+// function generateRandom(min, max) {
+//     return (min + Math.round(Math.random() * (max - min)))
+// }
+var fansNum = {{ fansNum |safe }};
+let links = [], data = [];
+
+roles.map((v, k) => {
+    // var num = generateRandom(5, 99999)
+    if(k > 0) {
+        data.push({
+            name: v,
+            value: fansNum[k],
+            category: 1
+        })
+
+        links.push({
+            source: 0,
+            target: k,
+            //value: 1
+        })
+    } else {
+        data.push({
+            name: v,
+            value: fansNum[k],
+            category: 0,
+            symbolSize: 120
+        })
+    }
+
+});
+
+option = {
+    animationEasingUpdate: 'quinticInOut',
+    series: [{
+        type: 'graph',
+        layout: 'force',
+        force: {
+            repulsion: 3000,
+            edgeLength: [150, 80],
+            // layoutAnimation:false
+        },
+        // 节点标记类型
+        symbol: 'circle',
+        symbolSize: 100,
+        // 两端标记类型
+        edgeSymbol: ['circle', 'circle'],
+        edgeSymbolSize: [12, 20],
+
+        focusNodeAdjacency: true, // 鼠标经过节点是否突出显示
+        roam: false, // 是否开启鼠标平移
+        draggable: true, // 节点是否可拖拽
+
+        label: {
+            normal: {
+                show: true,
+                position: 'inside',
+                textStyle: {
+                    fontSize: 10
+                },
+            }
+        },
+
+        lineStyle: {
+            normal: {
+                opacity: 1,
+                color: {
+                    colorStops: [{
+                        offset: 0,
+                        color: '#FEE52D'
+                    }, {
+                        offset: 1,
+                        color: '#F89212'
+                    }]
+                },
+                width: 3
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: '#162436',
+                borderColor: {
+                    colorStops: [{
+                        offset: 0,
+                        color: '#A568FF'
+                    }, {
+                        offset: 1,
+                        color: '#006CFF'
+                    }]
+                },
+                borderWidth: 6
+            }
+        },
+        // 节点分类
+        categories: [{
+            name: 'root',
+            label: {
+                formatter: '{b}',
+                fontSize: 20
+            },
+            itemStyle: {
+                color: '#132486'
+            }
+        }, {
+            name: 'child',
+            label: {
+                formatter: ['{a|{c}}', '{b|{b}}'].join('\n'),
+                rich: {
+                    a: {
+                        color: '#0ff',
+                        align: 'center',
+                    },
+                    b: {
+                        color: '#fff',
+                        align: 'center',
+                        lineHeight: 24
+                    }
+                }
+            }
+        }],
+        // 数据
+        data,
+        // 节点间关系数据
+        links
+    }]
+};
+var ChartInfluence = echarts.init(document.getElementById('echarts-influence'));
+ChartInfluence.setOption(option);
+window.addEventListener('resize',function(){
+  ChartInfluence.resize();
+});
+ChartInfluence.on("mouseover", function(data) {
+    // 取消节点连接线触发效果
+    if (data.dataType == "edge") {
+        ChartInfluence.dispatchAction({
+            type: 'unfocusNodeAdjacency',
+            seriesIndex: 0
+        });
+    }
+});
+});
+</script>
+<script>
+$(function () {
+    var myChart = echarts.init(document.getElementById('echarts-relation'));
+    myChart.showLoading();
+$.get('/leaderRelation', function (data) {
+    myChart.hideLoading();
+
+    echarts.util.each(data.children, function (datum, index) {
+        index % 2 === 0 && (datum.collapsed = true);
+    });
+
+    myChart.setOption(option = {
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+        },
+        series: [
+            {
+                type: 'tree',
+
+                data: [data],
+
+                top: '1%',
+                left: '7%',
+                bottom: '1%',
+                right: '20%',
+
+                symbolSize: 7,
+
+                label: {
+                    position: 'left',
+                    verticalAlign: 'middle',
+                    align: 'right',
+                    fontSize: 9
+                },
+
+                leaves: {
+                    label: {
+                        position: 'right',
+                        verticalAlign: 'middle',
+                        align: 'left'
+                    }
+                },
+
+                expandAndCollapse: true,
+                animationDuration: 550,
+                animationDurationUpdate: 750
+            }
+        ]
+    });
+});
+})
+</script>
+{% endblock %}

@@ -1,0 +1,94 @@
+.push_right{
+	margin-right: 6px;
+}
+.pushbar_card_close{
+    width: 20px;
+    height: 20px;
+    position: relative;
+    display: inline-block;
+    vertical-align: text-bottom;
+    text-align: center;
+    cursor:pointer;
+	float: right;
+}
+.pushbar_card_close:before, .pushbar_card_close:after {
+    position: absolute;
+    left: 10px;
+    content: ' ';
+    height: 21px;
+    width: 3px;
+    background-color: #000;
+}
+.pushbar_card_close:before {
+    transform: rotate(45deg);
+}
+.pushbar_card_close:after {
+    transform: rotate(-45deg);
+}
+/*.card{*/
+/*	margin:20px;*/
+/*    border-radius: 5px;*/
+/*    background:#fff;*/
+/*	box-shadow:0px 0px 20px rgba(0, 0, 0, 0.1)*/
+/*}*/
+.pushbar_card_title,.pushbar{
+    background: #fff;
+    color: #000;
+}
+.pushbar_card_title{
+	padding: 15px 20px;
+    font-weight: bold;
+	font-size: 20px;
+}
+.pushbar.opened{
+	display: block;
+}
+html.pushbar_locked{
+    overflow: hidden;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+.pushbar_locked .pushbar_main_content.pushbar_blur{
+	filter:blur(15px);
+}
+.pushbar{
+	z-index: 1000;
+	position: fixed;
+	will-change: transform;
+	overflow-y: auto;
+	transition:transform 0.5s ease;
+	will-change: transform;
+	background:#fff;
+}
+.pushbar_overlay{
+	z-index: -999;
+	position: fixed;
+	width: 100%;
+	max-width: 100%;
+	height: 100%;
+	min-height: 100vh;
+	top: 0;
+	left: 0;
+    will-change: opacity;
+    transition:opacity 0.5s ease;
+    opacity:0;
+    will-change: opacity;
+	background: #413e45;
+}
+html.pushbar_locked .pushbar_overlay{
+	opacity:0.8;
+	z-index: 999;
+    transition:opacity 0.5s ease;
+}
+.pushbar.from_right{
+	top: 0;
+	right: 0;
+	width: 400px;
+	max-width: 100%;
+	height: 100%;
+	min-height: 100vh;
+	transform: translateZ(0) translateX(100%);
+}
+.pushbar.opened{
+   transform: translateX(0px) translateY(0px);
+}

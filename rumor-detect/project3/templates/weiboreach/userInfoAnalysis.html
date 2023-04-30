@@ -1,0 +1,505 @@
+{% extends 'weiboreach/base_main.html' %}
+{% block title %}
+    参与者分析
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="p-0 container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-title mb-0 mt-md-1 ml-md-2"><i class="text-title">疫情概要</i><!---<span class="content-title font-weight-bold font-italic">{{ hId }}</span>---><span class="float-right badge badge-primary mr-2">{{ weiboTime }}</span></div>
+                    <div class="card-body article-body">{{ weiboContent }}</div>
+                </div>
+            </div>
+        </div> <!--- 话题导语 --->
+        <!--- 参与者分析 --->
+        <div class="row">
+            <div class="d-flex col-md-12">
+                <div class="flex-fill w-100 card ">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#UserInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="UserInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">参与者信息说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <svg class="bi bi-geo-alt text-hot-title-icon text-primary" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 16s6-5.686 6-10A6 6 0 002 6c0 4.314 6 10 6 10zm0-7a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+</svg>
+                        <h5 class="mb-0 card-title d-inline-block">地域分布</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-9 col-sm-6">
+                                <div class="align-self-center w-100">
+                                    <div class="chart">
+                                        <div id="echarts-distribution-china" style="width: 100%; height: 300px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="region mt-20 fl">
+                                        <div class="region-header">
+                                            <span class="span fl">地区</span>
+                                            <span class="span fl">数量</span>
+                                        </div>
+                                        <div class="region-body">
+                                            <div class="__vuescroll" style="height: 246px;width: 200px; padding: 0px;position: relative;overflow: hidden">
+                                                <div class="__panel" style="position: relative; box-sizing: border-box; height: 100%; overflow: hidden scroll; margin-right: -15px">
+                                                    <div class="__view" style="position: relative; box-sizing: border-box; min-width: 100%; min-height: 100%;">
+                                                        <!--- 地域分布 --->
+                                                        {% for item in position %}
+                                                            <div class="item">
+                                                            {% for m, n in item.items %}
+                                                                <span class="span fl">{{ n }}</span>
+{#                                                              <span class="span fl">{{ n }}</span>#}
+                                                            {% endfor %}
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex col-md-6">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <svg class="bi bi-check-circle text-hot-title-icon text-warning" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3-3a.5.5 0 11.708-.708L8 9.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M8 2.5A5.5 5.5 0 1013.5 8a.5.5 0 011 0 6.5 6.5 0 11-3.25-5.63.5.5 0 11-.5.865A5.472 5.472 0 008 2.5z" clip-rule="evenodd"/>
+</svg>
+                        <h5 class="mb-0 card-title d-inline-block">微博认证</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="echarts-certification" style="width: 100%;height:400px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex col-md-6">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <svg class="bi bi-person-plus text-hot-title-icon text-info" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M11 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM1.022 13h9.956a.274.274 0 00.014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 00.022.004zm9.974.056v-.002.002zM6 7a2 2 0 100-4 2 2 0 000 4zm3-2a3 3 0 11-6 0 3 3 0 016 0zm4.5 0a.5.5 0 01.5.5v2a.5.5 0 01-.5.5h-2a.5.5 0 010-1H13V5.5a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M13 7.5a.5.5 0 01.5-.5h2a.5.5 0 010 1H14v1.5a.5.5 0 01-1 0v-2z" clip-rule="evenodd"/>
+</svg>
+                        <h5 class="mb-0 card-title d-inline-block">男女比例</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart">
+                                <div id="echarts-sexratio" style="width:100%;height:400px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex col-md-6">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <svg class="bi bi-person-check text-info text-hot-title-icon" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M11 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM1.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM6 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm6.854.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z" clip-rule="evenodd"/>
+</svg>
+                        <h5 class="mb-0 card-title d-inline-block">粉丝质量</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="echarts-fansNum" style="width: 100%;height: 400px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex col-md-6">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <svg class="bi bi-phone text-hot-title-icon text-primary" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M11 1H5a1 1 0 00-1 1v12a1 1 0 001 1h6a1 1 0 001-1V2a1 1 0 00-1-1zM5 0a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V2a2 2 0 00-2-2H5z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M8 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+</svg>
+                        <h5 class="mb-0 card-title d-inline-block">发布设备</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="echarts-toolratio" style="width: 100%;height:400px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block chartjs %}
+<script>
+$(function () {
+    var option = {
+        tooltip: {
+            trigger: 'item',
+            showDelay: 0,
+            transitionDuration: 0.2,
+            formatter: function (params) {
+                var value = (params.value + '').split('.');
+                value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
+                return params.seriesName + '<br/>' + params.name + ': ' + value;
+            }
+        },
+        visualMap: {
+            left: 'left',
+            min: 0,
+            max: 1000,
+            inRange: {
+                color: ['#aad5f1', '#585ef8', '#3f50ff', '#1d2973']
+            },
+            text: ['High', 'Low'],           // 文本，默认为数值文本
+            calculable: true
+        },
+        toolbox: {
+            show: true,
+            //orient: 'vertical',
+            left: 'right',
+            top: 'top',
+            feature: {
+                saveAsImage: {}
+            }
+        },
+
+        series: [
+            {
+                name: 'China',
+                type: 'map',
+                roam: false,
+                map: 'china',
+                itemStyle:{
+                    borderColor:'#646869',
+                    areaColor:'#fff',
+                    emphasis: {
+                        areaColor: "rgba(0,255,241,0.63)",
+                        borderColor: "#444",
+                        borderWidth: 1,
+
+                    },
+                },
+                emphasis: {
+                    label: {
+                        show: true
+                    }
+                },
+
+                // 文本位置修正
+                textFixed: {
+                    Alaska: [20, -20]
+                },
+                data:{{ position|safe }}
+            }
+        ]
+    };
+var ChartMap = echarts.init(document.getElementById('echarts-distribution-china'));
+ChartMap.setOption(option);
+window.addEventListener('resize',function(){
+  ChartMap.resize();
+})
+});
+</script>
+<script>
+$(function () {
+});
+</script>
+<script>
+$(function () {
+    var option = {
+    tooltip: {
+        trigger: 'item',
+        formatter: '{b}: {c} ({d}%)'
+    },
+    legend: {
+        orient: 'vertical',
+        {#position:right,#}
+        right: 10,
+        data: ['未认证','官方认证', '知名博主', '普通认证']
+    },
+    series: [
+        {
+            name: '认证比例',
+            type: 'pie',
+            radius: ['40%', '55%'],
+            color:['#ff5028', '#ff8605', '#31b1ff', '#ee52ff'],
+            itemStyle: {
+                normal: {
+                    // 设置扇形的阴影
+                    shadowBlur: 30,
+                    shadowColor: 'rgba(171,171,171,0.72)',
+                    shadowOffsetX: -5,
+                    shadowOffsetY: 5
+                }
+
+            },
+            label: {
+                formatter: '{b|{b}} {per|{d}%}',
+                rich: {
+                    b: {
+                        fontSize: 12,
+                        lineHeight: 33
+                    },
+                    per: {
+                        padding: [2, 4],
+                        borderRadius: 2
+                    }
+                }
+            },
+            data: {{ authratio | safe }}
+        }
+    ]
+};
+var ChartGender = echarts.init(document.getElementById('echarts-certification'));
+ChartGender.setOption(option);
+window.addEventListener('resize',function(){
+  ChartGender.resize();
+})
+
+});
+</script>
+<script>
+$(function () {
+var option = {
+    tooltip: {
+        trigger: 'item',
+        formatter: '{b}: {c} ({d}%)'
+    },
+    legend: {
+        orient: 'vertical',
+        right: 10,
+        data: ['男', '女']
+    },
+    series: [
+        {
+            name: '男女比例',
+            type: 'pie',
+            radius: ['40%', '55%'],
+            color:['#ff5ac3', '#40a9e1'],
+            itemStyle: {
+                normal: {
+                    // 设置扇形的阴影
+                    shadowBlur: 30,
+                    shadowColor: 'rgba(171,171,171,0.72)',
+                    shadowOffsetX: -5,
+                    shadowOffsetY: 5
+                }
+
+            },
+            label: {
+                formatter: '{b|{b}} {per|{d}%}',
+                rich: {
+                    b: {
+                        fontSize: 12,
+                        lineHeight: 33
+                    },
+                    per: {
+                        padding: [2, 4],
+                        borderRadius: 2
+                    }
+                }
+            },
+            data: {{ genderratio | safe }}
+        }
+    ]
+};
+var ChartGender = echarts.init(document.getElementById('echarts-sexratio'));
+ChartGender.setOption(option);
+window.addEventListener('resize',function(){
+  ChartGender.resize();
+})
+});
+</script>
+<script>
+$(function () {
+var option = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        left: '3%',
+        right: '3%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: [{
+        type: 'category',
+        axisTick: {
+            show: false,
+            color: '#707070'
+        },
+        axisLabel: {
+            interval:0,
+            rotate:40,
+            textStyle: {
+                fontSize: 10,
+                color: '#4D4D4D'
+            }
+        },
+        axisLine: {
+            show:false,
+            lineStyle: {
+                color: '#707070'
+            }
+        },
+        data: ['0~99', '100~999', '1000~9999', '10000~99999', '100000~999999', '>=1000000'],
+    }],
+    yAxis: {
+        type: 'value',
+        name:'粉丝数',
+        nameTextStyle: {
+            fontSize: 12,
+            color: '#4D4D4D'
+        },
+        axisLabel: {
+            textStyle: {
+                fontSize: 10,
+                color: '#4D4D4D'
+            }
+        },
+        axisLine: {
+            show:false,
+            lineStyle: {
+                color: '#707070'
+            }
+        }
+    },
+    series: [{
+        name: '数量',
+        type: 'bar',
+        barWidth: '60%',
+        // 渐变效果
+        itemStyle: {
+                    normal: {
+                            color: new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                [
+                                    {offset: 0, color: '#06B5D7'},                   //柱图渐变色
+                                    {offset: 0.5, color: '#44C0C1'},                 //柱图渐变色
+                                    {offset: 1, color: '#71C8B1'},                   //柱图渐变色
+                                ]
+                            )
+                            },
+                    emphasis: {
+                            color: new echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1,
+                                [
+                                    {offset: 0, color: '#71C8B1'},                  //柱图高亮渐变色
+                                    {offset: 0.7, color: '#44C0C1'},                //柱图高亮渐变色
+                                    {offset: 1, color: '#06B5D7'}                   //柱图高亮渐变色
+                                ]
+                            )
+                            }
+                },
+        data:{{ fans|safe }}
+    }]
+};
+var ChartFans = echarts.init(document.getElementById('echarts-fansNum'));
+ChartFans.setOption(option);
+window.addEventListener('resize',function(){
+  ChartFans.resize();
+})
+});
+</script>
+<script>
+$(function () {
+var option = {
+    tooltip: {
+        trigger: 'item',
+        formatter: '{b}: {c} ({d}%)'
+    },
+    legend: {
+        orient: 'vertical',
+        right: 10,
+        data: ['iPhone客户端', 'Android']
+    },
+    series: [
+        {
+            name: '发布设备',
+            type: 'pie',
+            radius: ['40%', '55%'],
+            color:['rgba(29,157,243,0.95)', '#40e1ce'],
+            itemStyle: {
+                normal: {
+                    // 设置扇形的阴影
+                    shadowBlur: 30,
+                    shadowColor: 'rgba(171,171,171,0.72)',
+                    shadowOffsetX: -5,
+                    shadowOffsetY: 5
+                }
+
+            },
+            label: {
+                formatter: '{b|{b}} {per|{d}%}',
+                rich: {
+                    b: {
+                        fontSize: 12,
+                        lineHeight: 33
+                    },
+                    per: {
+                        padding: [2, 4],
+                        borderRadius: 2
+                    }
+                }
+            },
+            data: {{ tool | safe }}
+        }
+    ]
+};
+var ChartGender = echarts.init(document.getElementById('echarts-toolratio'));
+ChartGender.setOption(option);
+window.addEventListener('resize',function(){
+  ChartGender.resize();
+})
+});
+</script>
+{% endblock %}

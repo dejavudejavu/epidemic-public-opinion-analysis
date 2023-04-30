@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/userInfo.css">
+    <link rel="stylesheet" href="/static/css/pusher.css">
+</head>
+<body>
+<div class="sidebar-wrapper">
+    <nav class="sidebar">
+        <div class="sidebar-content">
+            <div class="scrollbar-container ps">
+                <a class="sidebar-brand" href="#">
+                    <i class="fa fa-certificate profile" aria-hidden="true"></i>
+{#                    <i class="fa fa-globe profile" aria-hidden="true" style="font-size:24px;"><small class="ml-2" style="font-family:Nunito">COVID-19</small></i>#}
+                    <span>COVID-19</span>
+                </a>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{% url 'weiboreach:overView' hId %}">
+{#                        <span data-toggle="collapse" data-target="#collapse-show" class="sidebar-link collapsed" aria-controls="collapse-show" aria-expanded="false">#}
+                            <svg class="bi bi-grid-fill text-menus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M1 2.5A1.5 1.5 0 012.5 1h3A1.5 1.5 0 017 2.5v3A1.5 1.5 0 015.5 7h-3A1.5 1.5 0 011 5.5v-3zm8 0A1.5 1.5 0 0110.5 1h3A1.5 1.5 0 0115 2.5v3A1.5 1.5 0 0113.5 7h-3A1.5 1.5 0 019 5.5v-3zm-8 8A1.5 1.5 0 012.5 9h3A1.5 1.5 0 017 10.5v3A1.5 1.5 0 015.5 15h-3A1.5 1.5 0 011 13.5v-3zm8 0A1.5 1.5 0 0110.5 9h3a1.5 1.5 0 011.5 1.5v3a1.5 1.5 0 01-1.5 1.5h-3A1.5 1.5 0 019 13.5v-3z" clip-rule="evenodd"/>
+</svg>
+                            <span class="align-middle">舆情总览</span>
+                        </a>
+{#                        </span>#}
+{#                        <div class="collapse show" aria-expanded="true" id="collapse-show">#}
+{#                            <ul id="item" class="sidebar-dropdown list-unstyled">#}
+{#                                <li class="sidebar-item active">#}
+{#                                    <a class="sidebar-link active" href="/test/2">影响度</a>#}
+{#                                </li>#}
+{#                                <li class="sidebar-item">#}
+{#                                    <a class="sidebar-link" href="{% url 'weiboreach:hotAnalysis' %}">内容评价</a>#}
+{#                                </li>#}
+{#                            </ul>#}
+{#                        </div>#}
+                     </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{% url 'weiboreach:hotAnalysis' hId %}">
+                            <svg class="bi bi-heart-fill text-menus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" clip-rule="evenodd"/>
+</svg>
+                            <span class="align-middle">热度分析</span>
+                        </a>
+                    </li>
+                  <!---  <li class="sidebar-item">
+                        <a class="sidebar-link" href="{% url 'weiboreach:pathAnalysis' hId %}">
+                            <svg class="bi bi-shuffle text-menus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M12.646 1.146a.5.5 0 01.708 0l2.5 2.5a.5.5 0 010 .708l-2.5 2.5a.5.5 0 01-.708-.708L14.793 4l-2.147-2.146a.5.5 0 010-.708zm0 8a.5.5 0 01.708 0l2.5 2.5a.5.5 0 010 .708l-2.5 2.5a.5.5 0 01-.708-.708L14.793 12l-2.147-2.146a.5.5 0 010-.708z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M0 4a.5.5 0 01.5-.5h2c3.053 0 4.564 2.258 5.856 4.226l.08.123c.636.97 1.224 1.865 1.932 2.539.718.682 1.538 1.112 2.632 1.112h2a.5.5 0 010 1h-2c-1.406 0-2.461-.57-3.321-1.388-.795-.755-1.441-1.742-2.055-2.679l-.105-.159C6.186 6.242 4.947 4.5 2.5 4.5h-2A.5.5 0 010 4z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M0 12a.5.5 0 00.5.5h2c3.053 0 4.564-2.258 5.856-4.226l.08-.123c.636-.97 1.224-1.865 1.932-2.539C11.086 4.93 11.906 4.5 13 4.5h2a.5.5 0 000-1h-2c-1.406 0-2.461.57-3.321 1.388-.795.755-1.441 1.742-2.055 2.679l-.105.159C6.186 9.758 4.947 11.5 2.5 11.5h-2a.5.5 0 00-.5.5z" clip-rule="evenodd"/>
+</svg>
+                            <span class="align-middle">传播路径分析</span>
+                        </a>
+                    </li>
+                    --->
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{% url 'weiboreach:contentAnalysis' hId %}">
+                            <svg class="bi bi-clipboard-data text-menus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 00-2 2V14a2 2 0 002 2h10a2 2 0 002-2V3.5a2 2 0 00-2-2h-1v1h1a1 1 0 011 1V14a1 1 0 01-1 1H3a1 1 0 01-1-1V3.5a1 1 0 011-1h1v-1z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h3a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5zm-3-1A1.5 1.5 0 005 1.5v1A1.5 1.5 0 006.5 4h3A1.5 1.5 0 0011 2.5v-1A1.5 1.5 0 009.5 0h-3z" clip-rule="evenodd"/>
+  <path d="M4 11a1 1 0 112 0v1a1 1 0 11-2 0v-1zm6-4a1 1 0 112 0v5a1 1 0 11-2 0V7zM7 9a1 1 0 012 0v3a1 1 0 11-2 0V9z"/>
+</svg>
+                            <span class="align-middle">情感分析</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{% url 'weiboreach:rumourDetection' hId %}">
+                            <svg class="bi bi-chat-square-quote-fill text-menus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm7.194 2.766c.087.124.163.26.227.401.428.948.393 2.377-.942 3.706a.446.446 0 0 1-.612.01.405.405 0 0 1-.011-.59c.419-.416.672-.831.809-1.22-.269.165-.588.26-.93.26C4.775 7.333 4 6.587 4 5.667 4 4.747 4.776 4 5.734 4c.271 0 .528.06.756.166l.008.004c.169.07.327.182.469.324.085.083.161.174.227.272zM11 7.073c-.269.165-.588.26-.93.26-.958 0-1.735-.746-1.735-1.666 0-.92.777-1.667 1.734-1.667.271 0 .528.06.756.166l.008.004c.17.07.327.182.469.324.085.083.161.174.227.272.087.124.164.26.228.401.428.948.392 2.377-.942 3.706a.446.446 0 0 1-.613.01.405.405 0 0 1-.011-.59c.42-.416.672-.831.81-1.22z" clip-rule="evenodd"/>
+</svg>
+                            <span class="align-middle">谣言检测</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{% url 'weiboreach:userInfoAnalysis' hId %}">
+                            <svg class="bi bi-people-fill text-menus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clip-rule="evenodd"/>
+</svg>
+                            <span class="align-middle">舆民分析</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{% url 'weiboreach:influenceAnalysis' hId %}">
+                            <svg class="bi bi-brightness-high-fill text-menus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="8" cy="8" r="4"/>
+  <path fill-rule="evenodd" d="M8 0a.5.5 0 01.5.5v2a.5.5 0 01-1 0v-2A.5.5 0 018 0zm0 13a.5.5 0 01.5.5v2a.5.5 0 01-1 0v-2A.5.5 0 018 13zm8-5a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2a.5.5 0 01.5.5zM3 8a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2A.5.5 0 013 8zm10.657-5.657a.5.5 0 010 .707l-1.414 1.415a.5.5 0 11-.707-.708l1.414-1.414a.5.5 0 01.707 0zm-9.193 9.193a.5.5 0 010 .707L3.05 13.657a.5.5 0 01-.707-.707l1.414-1.414a.5.5 0 01.707 0zm9.193 2.121a.5.5 0 01-.707 0l-1.414-1.414a.5.5 0 01.707-.707l1.414 1.414a.5.5 0 010 .707zM4.464 4.465a.5.5 0 01-.707 0L2.343 3.05a.5.5 0 01.707-.707l1.414 1.414a.5.5 0 010 .708z" clip-rule="evenodd"/>
+</svg>
+                            <span class="align-middle">舆论领袖</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> <!--- 侧边栏 --->
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-light bg-white">
+            <span id="toggle-sidebar" class="sidebar-toggle d-flex mr-2">
+                <i class="hamburger align-self-center"></i>
+            </span>
+{#            <form class="form-inline d-none d-sm-inline-block">#}
+{#					<input class="form-control form-control-no-border mr-sm-2" type="text" placeholder="Search projects..." aria-label="Search">#}
+{#            </form>#}
+            <div class="collapse navbar-collapse" aria-expanded="false">
+                <ul class="ml-auto navbar-nav">
+                    <li class="mr-2 nav-item">
+                        <span class="nav-flag nav-link">
+                            <a href="#">
+                             <svg class="bi bi-house-fill text-dark" width="25px" height="25px" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 3.293l6 6V13.5a1.5 1.5 0 01-1.5 1.5h-9A1.5 1.5 0 012 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 01.5-.5h1a.5.5 0 01.5.5z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 011.414 0l6.647 6.646a.5.5 0 01-.708.708L8 2.207 1.354 8.854a.5.5 0 11-.708-.708L7.293 1.5z" clip-rule="evenodd"/>
+</svg>
+                            </a>
+                        </span>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <span class="d-none d-sm-inline">
+                            <a aria-haspopup="true" href="#" class="dropdown-toggle nav-link" aria-expanded="false">
+                                <svg class="bi bi-person-fill text-person" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+</svg>
+                                <span class="text-dark">DanielWeng</span>
+                            </a>
+                        </span>
+                    </li>
+                </ul>
+
+            </div>
+        </nav> <!--- 顶部 --->
+    <div id="content">
+        {% block content %}
+         {% endblock %}
+    </div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="text-muted row">
+                    <div class="text-left col-6">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item">
+                                <span class="text-muted" href="#">Support</span>
+                            </li>
+                            <li class="list-inline-item"><span class="text-muted" href="#">Help Center</span></li>
+                            <li class="list-inline-item"><span class="text-muted" href="#">Privacy</span></li>
+                        </ul>
+                    </div>
+                    <div class="text-right col-6">
+                        <p class="mb-0">
+                            ⓒ2020 -
+                            <span class="text-muted" href="/">DanielWeng</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+
+<!--- js文件 --->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/Chart.js/3.0.0-alpha/Chart.min.js"></script>
+<script src="/static/js/echarts.min.js"></script>
+<script src="/static/js/echarts-wordcloud.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/map/js/china.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+{#<script src="http://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>#}
+{#<script src="https://code.highcharts.com.cn/highcharts/modules/networkgraph.js"></script>#}
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/custom.js"></script>
+<script src="/static/js/pushbar.js"></script>
+
+{% block chartjs %}
+    图表的js文件
+{% endblock %}
+</body>
+</html>

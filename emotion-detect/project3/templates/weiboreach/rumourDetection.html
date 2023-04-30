@@ -1,0 +1,957 @@
+{% extends 'weiboreach/base_main.html' %}
+{% block title %}
+    谣言检测
+{% endblock %}
+{% block content %}
+<div class="content">
+    <div class="p-0 container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-title mb-0 mt-md-1 ml-md-2"><i class="text-title">疫情概要</i><!---<span class="content-title font-weight-bold font-italic">{{ hId }}</span>---><span class="float-right badge badge-primary mr-2">{{ weiboTime }}</span></div>
+                    <div class="card-body article-body">{{ weiboContent }}</div>
+                </div>
+            </div>
+        </div> <!--- 话题导语 --->
+        <!--- 内容 --->
+        <div class="row">
+            <div class="d-flex col-md-12">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#RumourDetectionModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="RumourDetectionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">情感属性说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-heartbeat text-danger"></i>
+                        <h5 class="mb-0 card-title d-inline-block">谣言主题</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <button id="week" key="0" type="button" class="btn btn-outline-primary active ml-3" style="width: 70px">Week</button>
+                            <button id="day" key="1" type="button" class="btn btn-outline-info" style="width: 70px">Day</button>
+                            <div class="chart chart-lg">
+                                <div id="chart-timeline" style="width: 100%;height: 400px"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex col-md-6">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#HotWordInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="HotWordInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">情感属性说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-github-alt text-info" aria-hidden="true"></i>
+                        <h5 class="mb-0 card-title d-inline-block">谣言高频词</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="echarts-wordCloud" style="width: 100%;height: 400px"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex col-md-6">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#KeyUserInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="KeyUserInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">关键用户列表说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-user-secret text-secondary" aria-hidden="true"></i>
+                        <h5 class="mb-0 card-title d-inline-block">提及主体</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="apexcharts-mention" style="width: 100%;height: 400px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+{% block chartjs %}
+<script>
+$(function () {
+var options = {
+    series: [],
+    chart: {
+          type: 'area',
+          height: 400,
+        },
+        dataLabels: {
+          enabled: false
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            inverseColors: false,
+            opacityFrom: 0.5,
+            opacityTo: 0,
+            stops: [0, 90, 100]
+          },
+        },
+        noData: {
+          text: 'Loading...'
+        },
+        xaxis: {
+          type: 'category',
+          tickPlacement: 'on',
+          labels: {
+              show: true,
+              rotate: -50,
+              style: {
+                  fontSize: '10px',
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+              }
+          }
+    }
+
+};
+var chart = new ApexCharts(document.querySelector("#chart-timeline"), options);
+chart.render();
+
+var resetCssClasses = function(activeEl) {
+    var els = document.querySelectorAll('button');
+    Array.prototype.forEach.call(els, function(el) {
+        el.classList.remove('active');});
+        activeEl.target.classList.add('active');
+    };
+$.getJSON('/rumourDate/0', function(response) {
+            chart.updateSeries([{
+            name: '数量',
+            data: response.data
+        }])
+            });
+document.querySelector('#week').addEventListener('click', function(e) {
+     if($('#week').hasClass('active') == false){
+            resetCssClasses(e);
+            $.getJSON('/rumourDate/'+ $(this).attr('key'), function(response) {
+            chart.updateSeries([{
+            name: '数量',
+            data: response.data
+        }]);
+
+            });
+        }
+    });
+document.querySelector('#day').addEventListener('click', function(e) {
+        if($('#day').hasClass('active') == false){
+            resetCssClasses(e);
+            $.getJSON('/rumourDate/'+ $(this).attr('key'), function(response) {
+            chart.updateSeries([{
+            name: '数量',
+            data: response.data
+        }])
+            });
+        }
+    });
+})
+</script>
+<script>
+$(function () {
+var options = {
+          series: [
+              {
+                  name: "医院",
+                  data: [35, 41, 62, 42, 13, 18, 29]
+              },
+              {
+				name: "微信群",
+				data: [87, 57, 74, 99, 75, 38, 62]
+          }],
+          chart: {
+          type: 'area',
+          stacked: false,
+          height: 400,
+          zoom: {
+            type: 'x',
+            enabled: true,
+            autoScaleYaxis: true
+          },
+          toolbar: {
+            autoSelected: 'zoom'
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        markers: {
+          size: 0,
+        },
+        title: {
+          text: '',
+          align: 'left'
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            inverseColors: false,
+            opacityFrom: 0.5,
+            opacityTo: 0,
+            stops: [0, 90, 100]
+          },
+        },
+        yaxis: {
+          labels: {
+            formatter: function (val) {
+              return val;
+            },
+          },
+          title: {
+            text: ''
+          },
+        },
+        xaxis: {
+			categories: ["04-19 10:00", "04-19 11:00", "04-19 12:00", "04-19 13:00", "04-19 14:00", "04-19 15:00", "04-19 16:00"],
+		},
+        tooltip: {
+          {#shared: false,#}
+          y: {
+            formatter: function (val) {
+              return val;
+            }
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#echarts-rumourtitle"), options);
+        chart.render();
+});
+</script>
+<script>
+$(function () {
+var options = {
+          series: [{
+          name:['频次'],
+          data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+        }],
+          chart: {
+          type: 'bar',
+          height: 400
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+          }
+        },
+        stroke: {
+            width: 1,
+            colors: ["#fff"]
+        },
+        dataLabels: {
+          enabled: true,
+          style: {
+            fontSize: '12px',
+            colors: ['#fff']
+          }
+        },
+        xaxis: {
+          categories: ['医院', '口罩', '微信群', '车辆', '湖北', '小区', '物资',
+            '高速', '红十字会', '政府'
+          ],
+            labels: {
+                formatter: function(val) {
+                    return val;
+                }
+            }
+        },
+        tooltip: {
+			y: {
+				formatter: function(val) {
+                    return val;
+                }
+            }
+        },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#apexcharts-mention"), options);
+        chart.render();
+});
+</script>
+<script>
+var chart = echarts.init(document.getElementById('echarts-wordCloud'));
+chart.setOption({
+    tooltip: {
+        show: true
+    },
+    series: [{
+        type: 'wordCloud',
+
+        // The shape of the "cloud" to draw. Can be any polar equation represented as a
+        // callback function, or a keyword present. Available presents are circle (default),
+        // cardioid (apple or heart shape curve, the most known polar equation), diamond (
+        // alias of square), triangle-forward, triangle, (alias of triangle-upright, pentagon, and star.
+
+        shape: 'circle',
+
+        // A silhouette image which the white area will be excluded from drawing texts.
+        // The shape option will continue to apply as the shape of the cloud to grow.
+
+        {#maskImage: maskImage,#}
+
+        // Folllowing left/top/width/height/right/bottom are used for positioning the word cloud
+        // Default to be put in the center and has 75% x 80% size.
+
+        left: 'center',
+        top: 'center',
+        width: '80%',
+        height: '80%',
+        right: null,
+        bottom: null,
+
+        // Text size range which the value in data will be mapped to.
+        // Default to have minimum 12px and maximum 60px size.
+
+        sizeRange: [12, 60],
+
+        // Text rotation range and step in degree. Text will be rotated randomly in range [-90, 90] by rotationStep 45
+
+        rotationRange: [-90, 90],
+        rotationStep: 45,
+
+        // size of the grid in pixels for marking the availability of the canvas
+        // the larger the grid size, the bigger the gap between words.
+
+        gridSize: 8,
+
+        // set to true to allow word being draw partly outside of the canvas.
+        // Allow word bigger than the size of the canvas to be drawn
+        drawOutOfBound: false,
+
+        // Global text style
+        textStyle: {
+            normal: {
+                fontFamily: 'sans-serif',
+                fontWeight: 'bold',
+                // Color can be a callback function or a color string
+                color: function () {
+                    // Random color
+                    return 'rgb(' + [
+                        Math.round(Math.random() * 160),
+                        Math.round(Math.random() * 160),
+                        Math.round(Math.random() * 160)
+                    ].join(',') + ')';
+                }
+            },
+            emphasis: {
+                shadowBlur: 10,
+                shadowColor: '#333'
+            }
+        },
+
+        // Data is an array. Each array item must have name and value property.
+        data:[{
+                name: "隔离",
+                value: 50
+            },
+            {
+                name: "封城",
+                value: 24
+            },
+            {
+                name: " 超市",
+                value: 21
+            },
+            {
+                name: " 高速",
+                value: 19
+            },
+            {
+                name: " 飞机",
+                value: 18
+            },
+            {
+                name: " 温州",
+                value: 18
+            },
+            {
+                name: " 北京",
+                value: 17
+            },
+            {
+                name: " 物资",
+                value: 12
+            },
+            {
+                name: " 预防",
+                value: 12
+            },
+            {
+                name: " 上海",
+                value: 11
+            },
+            {
+                name: " 传染",
+                value: 11
+            },
+            {
+                name: " 封路",
+                value: 10
+            },
+            {
+                name: " 物流",
+                value: 9
+            },
+            {
+                name: " 消息",
+                value: 9
+            },
+            {
+                name: " 网民",
+                value: 9
+            },
+            {
+                name: " 造谣",
+                value: 9
+            },
+            {
+                name: " 传播",
+                value: 8
+            },
+            {
+                name: " 人员",
+                value: 8
+            },
+            {
+                name: " 朋友圈",
+                value: 8
+            },
+            {
+                name: " 防空",
+                value: 8
+            },
+            {
+                name: " 速度",
+                value: 8
+            },
+            {
+                name: " 流传",
+                value: 8
+            },
+            {
+                name: " 药物",
+                value: 8
+            },
+            {
+                name: " 消毒",
+                value: 8
+            },
+            {
+                name: " 停运",
+                value: 7
+            },
+            {
+                name: " 酒精",
+                value: 7
+            },
+            {
+                name: " 钟南",
+                value: 7
+            },
+            {
+                name: " 到货",
+                value: 7
+            },
+            {
+                name: " 有点",
+                value: 7
+            },
+            {
+                name: " 抢购",
+                value: 6
+            },
+            {
+                name: " 这样",
+                value: 6
+            },
+            {
+                name: " 性价比",
+                value: 6
+            },
+            {
+                name: " 一般般",
+                value: 6
+            },
+            {
+                name: " 出现",
+                value: 6
+            },
+            {
+                name: " 以前",
+                value: 6
+            },
+            {
+                name: " 到手",
+                value: 2
+            },
+            {
+                name: " 发现",
+                value: 2
+            },
+            {
+                name: " 掉电",
+                value: 2
+            },
+            {
+                name: " 华为",
+                value: 2
+            },
+            {
+                name: " 再也",
+                value: 2
+            },
+            {
+                name: " 不用",
+                value: 2
+            },
+            {
+                name: " 给力",
+                value: 2
+            },
+            {
+                name: " 两天",
+                value: 2
+            },
+            {
+                name: " 立马",
+                value: 2
+            },
+            {
+                name: " 两周",
+                value: 2
+            },
+            {
+                name: " 处理器",
+                value: 2
+            },
+            {
+                name: " 关机",
+                value: 2
+            },
+            {
+                name: " 要么",
+                value: 2
+            },
+            {
+                name: " 满血",
+                value: 2
+            },
+            {
+                name: " 不会",
+                value: 2
+            },
+            {
+                name: " 定金",
+                value: 2
+            },
+            {
+                name: " 付款",
+                value: 2
+            },
+            {
+                name: " 心情",
+                value: 2
+            },
+            {
+                name: " 另外",
+                value: 2
+            },
+            {
+                name: " 游戏",
+                value: 2
+            },
+            {
+                name: " 公司",
+                value: 2
+            },
+            {
+                name: " 按键",
+                value: 2
+            },
+            {
+                name: " 卡顿",
+                value: 2
+            },
+            {
+                name: " 晚上",
+                value: 2
+            },
+            {
+                name: " 百分之",
+                value: 2
+            },
+            {
+                name: " 手机信号",
+                value: 2
+            },
+            {
+                name: " 一下",
+                value: 2
+            },
+            {
+                name: " 开学",
+                value: 2
+            },
+            {
+                name: " 上班",
+                value: 2
+            },
+            {
+                name: " 上天",
+                value: 2
+            },
+            {
+                name: " 配送",
+                value: 2
+            },
+            {
+                name: " 最后",
+                value: 2
+            },
+            {
+                name: " 太慢",
+                value: 2
+            },
+            {
+                name: " 手机套",
+                value: 2
+            },
+            {
+                name: " 笨重",
+                value: 2
+            },
+            {
+                name: " 半年",
+                value: 2
+            },
+            {
+                name: " 屏险",
+                value: 2
+            },
+            {
+                name: " 先发",
+                value: 2
+            },
+            {
+                name: " 不灵敏",
+                value: 2
+            },
+            {
+                name: " 硬度",
+                value: 2
+            },
+            {
+                name: " 这次",
+                value: 2
+            },
+            {
+                name: " 性能",
+                value: 2
+            },
+            {
+                name: " 介绍",
+                value: 2
+            },
+            {
+                name: " 卡针",
+                value: 2
+            },
+            {
+                name: " 不理",
+                value: 2
+            },
+            {
+                name: " 这是",
+                value: 2
+            },
+            {
+                name: " 买来",
+                value: 2
+            },
+            {
+                name: " 两次",
+                value: 2
+            },
+            {
+                name: " 网络",
+                value: 2
+            },
+            {
+                name: " 就裂",
+                value: 2
+            },
+            {
+                name: " 没用",
+                value: 2
+            },
+            {
+                name: " 多次",
+                value: 2
+            },
+            {
+                name: " 钢化",
+                value: 2
+            },
+            {
+                name: " 一星怪",
+                value: 1
+            },
+            {
+                name: " 新款",
+                value: 1
+            },
+            {
+                name: " 你行",
+                value: 1
+            },
+            {
+                name: " 没送",
+                value: 1
+            },
+            {
+                name: " 一个多",
+                value: 1
+            },
+            {
+                name: " 礼拜",
+                value: 1
+            },
+            {
+                name: " 只能",
+                value: 1
+            },
+            {
+                name: " 价位",
+                value: 1
+            },
+            {
+                name: " 闪退",
+                value: 1
+            },
+            {
+                name: " 抢到",
+                value: 1
+            },
+            {
+                name: " 其它",
+                value: 1
+            },
+            {
+                name: " 便宜",
+                value: 1
+            },
+            {
+                name: " 两百",
+                value: 1
+            },
+            {
+                name: " 盈利",
+                value: 1
+            },
+            {
+                name: " 知道",
+                value: 6
+            },
+            {
+                name: " 一次",
+                value: 6
+            },
+            {
+                name: " 真的",
+                value: 6
+            },
+            {
+                name: " 收到",
+                value: 6
+            },
+            {
+                name: " 其他",
+                value: 6
+            },
+            {
+                name: " 电量",
+                value: 6
+            },
+            {
+                name: " 还是",
+                value: 6
+            },
+            {
+                name: " 不行",
+                value: 6
+            },
+            {
+                name: " 红米",
+                value: 6
+            },
+            {
+                name: " 那么",
+                value: 6
+            },
+            {
+                name: " 挺快",
+                value: 5
+            },
+            {
+                name: " 现在",
+                value: 5
+            },
+            {
+                name: " 服务",
+                value: 5
+            },
+            {
+                name: " 充电",
+                value: 5
+            },
+            {
+                name: " 流畅",
+                value: 5
+            },
+            {
+                name: " 系统",
+                value: 5
+            },
+            {
+                name: " 非常",
+                value: 5
+            },
+            {
+                name: " 满意",
+                value: 5
+            },
+            {
+                name: " 购物",
+                value: 5
+            },
+            {
+                name: " 玩游戏",
+                value: 5
+            },
+            {
+                name: " 信号",
+                value: 5
+            },
+            {
+                name: " 不了",
+                value: 5
+            },
+            {
+                name: " 别人",
+                value: 5
+            },
+        ]
+        //data: [{
+       //     'name': 'Farrah Abraham',
+       //     'value': 366,
+            // Style of single text
+
+       // }]
+    }]
+
+});
+window.addEventListener('resize',function(){
+  chart.resize();
+})
+</script>
+{% endblock %}

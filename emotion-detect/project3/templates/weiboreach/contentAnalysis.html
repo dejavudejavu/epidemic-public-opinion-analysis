@@ -1,0 +1,434 @@
+{% extends 'weiboreach/base_main.html' %}
+{% block title %}
+    内容分析
+{% endblock %}
+{% block content %}
+<div class="content">
+    <div class="p-0 container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-title mb-0 mt-md-1 ml-md-2"><i class="text-title">疫情概要</i><!---<span class="content-title font-weight-bold font-italic">{{ hId }}</span>---><span class="float-right badge badge-primary mr-2">{{ weiboTime }}</span></div>
+                    <div class="card-body article-body">{{ weiboContent }}</div>
+                </div>
+            </div>
+        </div> <!--- 话题导语 --->
+        <!--- 内容 --->
+        <div class="row">
+            <div class="d-flex col-md-6">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#EmotionInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="EmotionInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">情感属性说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-heartbeat text-danger"></i>
+                        <h5 class="mb-0 card-title d-inline-block">情感属性</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="echarts-emotion" style="width: 100%;height: 400px"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex col-md-6">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#KeyWordInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="KeyWordInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">关键词说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-cloud text-primary" aria-hidden="true"></i>
+                        <h5 class="mb-0 card-title d-inline-block">热门话题词</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="hightchartjs-wordcloud" style="width:100%;height:400px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                <div class="row">
+            <div class="d-flex col-md-6">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#HotWordInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="HotWordInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">情感属性说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-smile-o text-warning" aria-hidden="true"></i>
+                        <h5 class="mb-0 card-title d-inline-block">正向高频词</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="echarts-posEmotion" style="width: 100%;height: 400px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex col-md-6">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#KeyUserInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="KeyUserInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">关键用户列表说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-frown-o text-primary" aria-hidden="true"></i>
+                        <h5 class="mb-0 card-title d-inline-block">负面高频词</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <div id="echarts-negEmotion" style="width: 100%;height: 400px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block chartjs %}
+<script>
+$(function () {
+option = {
+    tooltip : {
+        formatter: "{a} <br/>{b} : {c}"
+    },
+    toolbox: {
+        feature: {
+            {#restore: {},#}
+            {#saveAsImage: {}#}
+        }
+    },
+    series: [
+        {
+            name: '情感值',
+            type: 'gauge',
+            detail: {formatter: '{value}'},
+            data: [{value: 20, name: '情感值'}],
+            axisLabel: { // 坐标轴文本标签，详见axis.axisLabel
+                formatter: function (v) {
+                    switch (v + '') {
+                        case '0':
+                            return '-100';
+                        case '10':
+                            return '-80';
+                        case '20':
+                            return '-60';
+                        case '30':
+                            return '-40';
+                        case '40':
+                            return '-20';
+                        case '50':
+                            return '0';
+                        case '60':
+                            return '20';
+                        case '70':
+                            return '40';
+                        case '80':
+                            return '60';
+                        case '90':
+                            return '80';
+                        case '100':
+                            return '100';
+                    }
+                },
+            }
+        }
+    ]
+};
+var chart = echarts.init(document.getElementById('echarts-emotion'));
+chart.setOption(option);
+window.addEventListener('resize',function(){
+  chart.resize();
+})
+})
+</script>
+
+<script>
+$(function () {
+var chart = echarts.init(document.getElementById('hightchartjs-wordcloud'));
+chart.setOption({
+    tooltip: {
+        show: true
+    },
+    series: [{
+        type: 'wordCloud',
+
+        // The shape of the "cloud" to draw. Can be any polar equation represented as a
+        // callback function, or a keyword present. Available presents are circle (default),
+        // cardioid (apple or heart shape curve, the most known polar equation), diamond (
+        // alias of square), triangle-forward, triangle, (alias of triangle-upright, pentagon, and star.
+
+        shape: 'circle',
+
+        // A silhouette image which the white area will be excluded from drawing texts.
+        // The shape option will continue to apply as the shape of the cloud to grow.
+
+        {#maskImage: maskImage,#}
+
+        // Folllowing left/top/width/height/right/bottom are used for positioning the word cloud
+        // Default to be put in the center and has 75% x 80% size.
+
+        left: 'center',
+        top: 'center',
+        width: '80%',
+        height: '80%',
+        right: null,
+        bottom: null,
+
+        // Text size range which the value in data will be mapped to.
+        // Default to have minimum 12px and maximum 60px size.
+
+        sizeRange: [20, 60],
+
+        // Text rotation range and step in degree. Text will be rotated randomly in range [-90, 90] by rotationStep 45
+
+        rotationRange: [-90, 90],
+        rotationStep: 45,
+
+        // size of the grid in pixels for marking the availability of the canvas
+        // the larger the grid size, the bigger the gap between words.
+
+        gridSize: 8,
+
+        // set to true to allow word being draw partly outside of the canvas.
+        // Allow word bigger than the size of the canvas to be drawn
+        drawOutOfBound: false,
+
+        // Global text style
+        textStyle: {
+            normal: {
+                fontFamily: 'sans-serif',
+                fontWeight: 'bold',
+                // Color can be a callback function or a color string
+                color: function () {
+                    // Random color
+                    return 'rgb(' + [
+                        Math.round(Math.random() * 160),
+                        Math.round(Math.random() * 160),
+                        Math.round(Math.random() * 160)
+                    ].join(',') + ')';
+                }
+            },
+            emphasis: {
+                shadowBlur: 10,
+                shadowColor: '#333'
+            }
+        },
+
+        // Data is an array. Each array item must have name and value property.
+        data:{{ wordcloud | safe}}
+        //data: [{
+       //     'name': 'Farrah Abraham',
+       //     'value': 366,
+            // Style of single text
+
+       // }]
+    }]
+
+});
+window.addEventListener('resize',function(){
+  chart.resize();
+})
+});
+</script>
+<script>
+$(function () {
+var dom = document.getElementById("echarts-posEmotion");
+var myChart = echarts.getInstanceByDom(dom) || echarts.init(dom);
+var option = {
+    tooltip: {},
+    series: [ {
+        type: 'wordCloud',
+        gridSize: 2,
+        sizeRange: [30, 50],
+        rotationRange: [0, 0],
+        shape: 'circle',
+        {#width: 600,#}
+        height: 400,
+        textStyle: {
+            normal: {
+                color: function () {
+                    return 'rgb(' + [
+                        Math.round(Math.random() * 160),
+                        Math.round(Math.random() * 160),
+                        Math.round(Math.random() * 160)
+                    ].join(',') + ')';
+                }
+            },
+            emphasis: {
+                shadowBlur: 10,
+                shadowColor: '#333'
+            }
+        },
+        data: {{ weiboPosWord|safe }}
+    } ]
+};
+
+myChart.setOption(option);
+})
+</script>
+<script>
+$(function () {
+var dom = document.getElementById("echarts-negEmotion");
+var myChart = echarts.getInstanceByDom(dom) || echarts.init(dom);
+var option = {
+    tooltip: {},
+    series: [ {
+        type: 'wordCloud',
+        gridSize: 2,
+        sizeRange: [20, 50],
+        rotationRange: [0, 0],
+        shape: 'circle',
+        {#width: 600,#}
+        height: 400,
+        textStyle: {
+            normal: {
+                color: function () {
+                    return 'rgb(' + [
+                        Math.round(Math.random() * 160),
+                        Math.round(Math.random() * 160),
+                        Math.round(Math.random() * 160)
+                    ].join(',') + ')';
+                }
+            },
+            emphasis: {
+                shadowBlur: 10,
+                shadowColor: '#333'
+            }
+        },
+        data: {{ weiboNegWord |safe}}
+    } ]
+};
+
+myChart.setOption(option);
+})
+</script>
+{% endblock %}

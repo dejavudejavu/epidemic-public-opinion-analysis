@@ -1,0 +1,421 @@
+{% extends 'weiboreach/base_main.html' %}
+{% block title %}
+    热度分析
+{% endblock %}
+{% block content %}
+<div class="content">
+    <div class="p-0 container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-title mb-0 mt-md-1 ml-md-2"><i class="text-title">疫情概要</i><!---<span class="content-title font-weight-bold font-italic">{{ hId }}</span>---><span class="float-right badge badge-primary mr-2">{{ weiboTime }}</span></div>
+                    <div class="card-body article-body">{{ weiboContent }}</div>
+                </div>
+            </div>
+        </div> <!--- 话题导语 --->
+        <!--- 热度趋势 --->
+        <div class="row">
+            <div class="d-flex col-md-12">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#HottrendInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="HottrendInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">热度趋势说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                            <p>热度趋势：反映了微博舆情的发展趋势</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-line-chart text-danger" aria-hidden="true"></i>
+                        <h5 class="mb-0 card-title d-inline-block">热度趋势</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-md">
+                                <div id="apexcharts-hotTrend" style="width: 100%;height: 400px"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--- 话题的影响力领袖 --->
+        <div class="row">
+            <div class="d-flex col-md-12">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#OpinionleadersInfoModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="OpinionleadersInfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">意见领袖说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                            <p>意见领袖：话题的主导者，影响力大，具有大量粉丝</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <svg class="bi bi-award text-primary text-hot-title-icon" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M9.669.864L8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193l-1.51-.229L8 1.126l-1.355.702-1.51.229-.684 1.365-1.086 1.072L3.614 6l-.25 1.506 1.087 1.072.684 1.365 1.51.229L8 10.874l1.356-.702 1.509-.229.684-1.365 1.086-1.072L12.387 6l.248-1.506-1.086-1.072-.684-1.365z" clip-rule="evenodd"/>
+  <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
+</svg>
+                        <h5 class="mb-0 card-title d-inline-block">热门博主</h5>
+                    </div>
+                    <div class="d-flex card-body py-0 flex-wrap">
+                        {% for userItem in weiboOptionLeaders %}
+                            <div class="flex-fill mb-2 col-lg-4 col-md-6">
+                                <div class="flex-fill card">
+                                    <div class="card-body py-4">
+                                        <div class="media">
+                                            <div class="d-inline-block mt-3 mr-3">
+                                                <!---<svg class="bi bi-person-bounding-box align-self-top mr-2" width="4em" height="4em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M1.5 1a.5.5 0 00-.5.5v3a.5.5 0 01-1 0v-3A1.5 1.5 0 011.5 0h3a.5.5 0 010 1h-3zM11 .5a.5.5 0 01.5-.5h3A1.5 1.5 0 0116 1.5v3a.5.5 0 01-1 0v-3a.5.5 0 00-.5-.5h-3a.5.5 0 01-.5-.5zM.5 11a.5.5 0 01.5.5v3a.5.5 0 00.5.5h3a.5.5 0 010 1h-3A1.5 1.5 0 010 14.5v-3a.5.5 0 01.5-.5zm15 0a.5.5 0 01.5.5v3a1.5 1.5 0 01-1.5 1.5h-3a.5.5 0 010-1h3a.5.5 0 00.5-.5v-3a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+</svg>--->
+                                                <img src="https://tvax3.sinaimg.cn/crop.28.0.969.969.180/a716fd45ly8gdijd1zmonj20sa0saaby.jpg?KID=imgbed,tva&Expires=1587830181&ssig=d4KREkPihk" width="64" height="64" class="rounded-circle" alt="头像">
+                                            </div>
+                                            <div class="media-body">
+                                                <h6>{{ userItem.username }}</h6>
+                                                <p>
+                                                    <span class="mr-1">粉丝<strong class="ml-1 text-primary">{{ userItem.fansNum }}</strong></span>
+                                                </p>
+                                                <p>
+                                                    <span>发博量<strong class="ml-1 text-primary">{{ userItem.weiboNum }}</strong></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block chartjs %}
+<script>
+$(function () {
+var options = {
+    series: [],
+    chart: {
+          type: 'area',
+          height: 400,
+        },
+        dataLabels: {
+          enabled: false
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            inverseColors: false,
+            opacityFrom: 0.5,
+            opacityTo: 0,
+            stops: [0, 90, 100]
+          },
+        },
+        noData: {
+          text: 'Loading...'
+        },
+        xaxis: {
+          type: 'category',
+          tickPlacement: 'on',
+          labels: {
+              show: true,
+              rotate: -50,
+              style: {
+                  fontSize: '10px',
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+              }
+          }
+    }
+
+};
+var chart = new ApexCharts(document.querySelector("#apexcharts-hotTrend"), options);
+chart.render();
+$.getJSON('/rumourDate/1', function(response) {
+            chart.updateSeries([{
+            name: '数量',
+            data: response.data
+        }])
+            });
+});
+</script>
+<script>
+$(function () {
+/**
+此版本通过设置geoindex && seriesIndex: [1] 属性来实现geo和map共存，来达到hover散点和区域显示tooltip的效果
+
+默认情况下，map series 会自己生成内部专用的 geo 组件。但是也可以用这个 geoIndex 指定一个 geo 组件。这样的话，map 和 其他 series（例如散点图）就可以共享一个 geo 组件了。并且，geo 组件的颜色也可以被这个 map series 控制，从而用 visualMap 来更改。
+当设定了 geoIndex 后，series-map.map 属性，以及 series-map.itemStyle 等样式配置不再起作用，而是采用 geo 中的相应属性。
+
+http://echarts.baidu.com/option.html#series-map.geoIndex
+
+并且加了pin气泡图标以示数值大小
+*/
+
+var uploadedDataURL = "/bwx";
+myChart.showLoading();
+$.getJSON(uploadedDataURL, function(geoJson) {
+    echarts.registerMap('china', geoJson);
+    myChart.hideLoading();
+    var geoCoordMap = {
+
+    "江苏": [118.8062, 31.9208],
+
+
+};
+    var data = [
+    {name:"江苏",value:"bwx"},
+
+    ];
+   var max = 480, min = 9; // todo
+    var maxSize4Pin = 100, minSize4Pin = 20;
+
+  var convertData = function (data) {
+    var res = [];
+    for (var i = 0; i < data.length; i++) {
+        var geoCoord = geoCoordMap[data[i].name];
+        if (geoCoord) {
+            res.push({
+                name: data[i].name,
+                value: geoCoord.concat(data[i].value)
+            });
+        }
+    }
+    return res;
+};
+    option = {
+        backgroundColor: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 1,
+        y2: 1,
+        colorStops: [{
+            offset: 0, color: '#0f378f' // 0% 处的颜色
+        }, {
+            offset: 1, color: '#00091a' // 100% 处的颜色
+        }],
+        globalCoord: false // 缺省为 false
+    },
+        title: {
+            top:20,
+            text: '',
+            subtext: '',
+            x: 'center',
+            textStyle: {
+                color: '#ccc'
+            }
+        },
+
+       tooltip: {
+            trigger: 'item',
+            formatter: function (params) {
+              if(typeof(params.value)[2] == "undefined"){
+              	return params.name + ' : ' + params.value;
+              }else{
+              	return params.name + ' : ' + params.value[2];
+              }
+            }
+        },
+     /*   legend: {
+            orient: 'vertical',
+            y: 'bottom',
+            x: 'right',
+             data:['pm2.5'],
+            textStyle: {
+                color: '#fff'
+            }
+        },*/
+            legend: {
+        orient: 'vertical',
+        y: 'bottom',
+        x:'right',
+        data:['pm2.5'],
+        textStyle: {
+            color: '#fff'
+        }
+    },
+        visualMap: {
+            show: false,
+            min: 0,
+            max: 500,
+            left: 'left',
+            top: 'bottom',
+            text: ['高', '低'], // 文本，默认为数值文本
+            calculable: true,
+            seriesIndex: [1],
+            inRange: {
+
+            }
+        },
+        geo: {
+            map: 'china',
+            show: true,
+            roam: true,
+            label: {
+				normal: {
+					show: false
+				},
+				emphasis: {
+					show: false,
+				}
+			},
+            itemStyle: {
+                normal: {
+                    areaColor: '#3a7fd5',
+                    borderColor: '#0a53e9',//线
+                    shadowColor: '#092f8f',//外发光
+                    shadowBlur: 20
+                },
+				 emphasis: {
+                    areaColor: '#fff',//悬浮区背景
+                }
+            }
+        },
+        series : [
+      {
+
+            symbolSize: 5,
+            label: {
+                normal: {
+                    formatter: '{b}',
+                    position: 'right',
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: '#fff'
+                }
+            },
+            name: 'light',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            data: convertData(data),
+
+        },
+         {
+            type: 'map',
+            map: 'china',
+            geoIndex: 0,
+            aspectScale: 0.75, //长宽比
+            showLegendSymbol: false, // 存在legend时显示
+            label: {
+                normal: {
+                    show: false
+                },
+                emphasis: {
+                    show: false,
+                    textStyle: {
+                        color: '#fff'
+                    }
+                }
+            },
+            roam: true,
+            itemStyle: {
+                normal: {
+                    areaColor: '#031525',
+                    borderColor: '#FFFFFF',
+                },
+                emphasis: {
+                    areaColor: '#2B91B7'
+                }
+            },
+            animation: false,
+            data: data
+        },
+        {
+            name: 'Top 5',
+            type: 'scatter',
+            coordinateSystem: 'geo',
+            symbol: 'pin',
+            symbolSize: [60,60],
+            label: {
+                normal: {
+                    show: true,
+                    textStyle: {
+                        color: '#fff',
+                        fontSize: 13,
+                    },
+                    formatter (value){
+                        return value.data.value[2]
+                    }
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: 'red', //标志颜色
+                }
+            },
+            data: convertData(data),
+            showEffectOn: 'render',
+            rippleEffect: {
+                brushType: 'stroke'
+            },
+            hoverAnimation: true,
+            zlevel: 1
+        },
+
+    ]
+    };
+    myChart.setOption(option);
+});
+})
+</script>
+{% endblock %}

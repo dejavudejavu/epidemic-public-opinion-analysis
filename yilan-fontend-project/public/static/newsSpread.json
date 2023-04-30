@@ -1,0 +1,49 @@
+{
+    "nodes":[
+        {
+            "id": "0",
+            "name": "Myriel",
+            "symbolSize": 19.12381,
+            "category": 0
+          },
+          {
+            "id": "1",
+            "name": "Napoleon",
+            "symbolSize": 10,
+            "category": 1
+          },
+          {
+            "id": "3",
+            "name": "kkkk",
+            "symbolSize": 10,
+            "category": 1
+          }          
+    ], 
+    "links": [
+        {
+          "source": "1",
+          "target": "0"
+        },
+        {
+          "source": "2",
+          "target": "0"
+        }
+    ],
+    "categories": [
+        {
+          "name": "新闻一的标题"
+        },
+        {
+          "name": "新闻二的标题"
+        },
+        {
+          "name": "新闻三的标题"
+        },
+        {
+          "name": "新闻四的标题"
+        },
+        {
+          "name": "新闻五的标题"
+        }
+      ]
+}

@@ -1,0 +1,5 @@
+[
+    {"value": 335, "name": "正向词汇","itemStyle":{"color":"#E63946"}},
+    {"value": 310, "name": "负向词汇","itemStyle":{"color":"#457B9D"}},
+    {"value": 274, "name": "中性词汇","itemStyle":{"color":"#F1FAEE"}}
+]

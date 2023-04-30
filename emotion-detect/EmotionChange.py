@@ -1,0 +1,27 @@
+import csv
+import json
+times=[]
+lables=[]
+dict_list={}
+with open('test.tsv','r',encoding='utf-8') as f:
+    reader1=csv.reader(f,delimiter='\t')
+    for line in reader1:
+        times.append(line[1])
+with open('Eresults.tsv','r',encoding='utf-8') as g:
+    reader2=csv.reader(g,delimiter='\t')
+    for line in reader2:
+        lables.append(line[0])
+for (index,a) in enumerate(times):
+    if lables[index]=='1':
+        if dict_list.get(times[index]) != None:
+            dict_list[times[index]] += 1
+        else:
+            dict_list[times[index]] = 1
+data=[]
+value=[]
+for a in dict_list:
+    data.append(a)
+    value.append(format(dict_list[a]/len(lables)*100,'.2f'))
+content={'data':data,'value':value}
+with open('EmotionChange.json','w',encoding='utf-8') as fff:
+    json.dump(content,fff,ensure_ascii=False)

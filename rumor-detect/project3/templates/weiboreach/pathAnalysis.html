@@ -1,0 +1,176 @@
+{% extends 'weiboreach/base_main.html' %}
+{% block title %}
+    路径分析
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="p-0 container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-title mb-0 mt-md-1 ml-md-2"><i class="text-title">疫情概要</i><span class="content-title font-weight-bold font-italic">{{ hId }}</span><span class="float-right badge badge-primary mr-2">{{ weiboTime }}</span></div>
+                    <div class="card-body article-body">{{ weiboContent }}</div>
+                </div>
+            </div>
+        </div> <!--- 话题导语 --->
+        <!--- 热度趋势 --->
+        <div class="row">
+            <div class="d-flex col-md-8">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <div class="card-actions float-right">
+                            <!---指标说明--->
+                            <div class="modal-Indexinfo" data-toggle="modal" data-target="#PathAnalysisModal">
+                                <a class="text-primary">
+                                    <svg class="bi bi-question-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
+  <path d="M5.25 6.033h1.32c0-.781.458-1.384 1.36-1.384.685 0 1.313.343 1.313 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.007.463h1.307v-.355c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.326 0-2.786.647-2.754 2.533zm1.562 5.516c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="PathAnalysisModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">传播路径说明</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>情感值：对该微博的转发文本进行自然语言处理后, 所得出的情感倾向判断,总分100分</p>
+                                            <p>内容评价：消息传播的穿透力，总分100分</p>
+                                            <p>认证比例：微博认证用户，总分100%</p>
+                                            <p>用户质量：二级粉丝计算，总分100分</p>
+                                            <p>传播路径：显示传播层次</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa fa-random text-danger" aria-hidden="true"></i>
+                        <h5 class="mb-0 card-title d-inline-block">传播路径</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="align-self-center w-100">
+                            <div class="chart chart-lg">
+                                <!--- 传播路径图 --->
+                                <div id="highchart-path"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex col-md-4">
+                <div class="flex-fill w-100 card">
+                    <div class="card-header">
+                        <svg class="bi bi-layers text-primary text-hot-title-icon" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M3.188 8L.264 9.559a.5.5 0 000 .882l7.5 4a.5.5 0 00.47 0l7.5-4a.5.5 0 000-.882L12.813 8l-1.063.567L14.438 10 8 13.433 1.562 10 4.25 8.567 3.187 8z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M7.765 1.559a.5.5 0 01.47 0l7.5 4a.5.5 0 010 .882l-7.5 4a.5.5 0 01-.47 0l-7.5-4a.5.5 0 010-.882l7.5-4zM1.563 6L8 9.433 14.438 6 8 2.567 1.562 6z" clip-rule="evenodd"/>
+</svg>
+                        <h5 class="mb-0 card-title d-inline-block">层次分析</h5>
+                    </div>
+                    <div class="d-flex card-body pt-0">
+                        <div class="w-100">
+                            <div class="chart chart-xs">
+                                <canvas id="chartjs-arrangement"></canvas>
+                            </div>
+                             <table class="mt-md-4 table">
+                                <tbody>
+                                    <tr>
+                                       <td><i class="fa fa-star mr-2 text-warning" aria-hidden="true" style="font-size: 25px"></i>No.4+</td>
+                                       <td>
+                                           1%
+                                       </td>
+                                   </tr>
+                                    <tr>
+                                       <td><i class="fa fa-tree mr-2 text-success" aria-hidden="true" style="font-size: 25px"></i>No.4</td>
+                                       <td>
+                                           13%
+                                       </td>
+                                   </tr>
+                                    <tr>
+                                       <td><i class="fa fa-hourglass-start mr-2 text-info" aria-hidden="true" style="font-size: 25px"></i>No.3</td>
+                                       <td>
+                                           19%
+                                       </td>
+                                   </tr>
+                                    <tr>
+                                       <td><i class="fa fa-podcast mr-2 text-primary" aria-hidden="true" style="font-size: 25px"></i>No.2</td>
+                                       <td>
+                                           29%
+                                       </td>
+                                   </tr>
+                                    <tr>
+                                       <td><i class="fa fa-smile-o mr-2 text-primary" aria-hidden="true" style="font-size: 25px"></i>No.1</td>
+                                       <td>
+                                           38%
+                                       </td>
+                                   </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block chartjs %}
+<script>
+$(function() {
+// Bar chart
+new Chart(document.getElementById("chartjs-arrangement"), {
+    type: "horizontalBar",
+    data: {
+        labels: ["No.4+", "No.4", "No.3", "No.2", "No.1"],
+        datasets: [{
+            label: "转发量",
+            backgroundColor: "#50daff",
+            borderColor: "#6553ff",
+            hoverBackgroundColor: "#6553ff",
+            hoverBorderColor: "#6553ff",
+            data: [0, 1, 23, 41, 659]
+        }]
+    },
+    options: {
+        maintainAspectRatio: false,
+        legend: {
+            display: false
+        },
+         tooltips:{
+                intersect: false,
+                mode: 'index'
+         },
+        scales: {
+            yAxes: [{
+                gridLines: {
+                    display: false
+                },
+                stacked: false,
+                ticks: {
+                    stepSize: 20
+                }
+            }],
+            xAxes: [{
+                barPercentage: .75,
+                categoryPercentage: .5,
+                stacked: false,
+                gridLines: {
+                    color: "transparent"
+                }
+            }]
+        }
+    }
+});
+});
+</script>
+
+{% endblock %}
